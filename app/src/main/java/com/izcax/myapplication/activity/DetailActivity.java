@@ -27,25 +27,32 @@ public class DetailActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         setupView();
 
         parcel = getIntent().getParcelableExtra(Constant.EXTRA_FORECAST);
-        tempMax.setText(getResources().getString(R.string.format_temperature,
-                Float.parseFloat(parcel.getTempMax())));
-        date.setText(parcel.getDate());
-        humidity.setText(getResources().getString(R.string.format_humidity,
-                Float.parseFloat(parcel.getHumidity())));
-        pressure.setText(getResources().getString(R.string.format_pressure,
-                Float.parseFloat(parcel.getPressure())));
-        String direction = Constant.getFormattedWind(this,
-                Float.parseFloat(parcel.getWind()), Float.parseFloat(parcel.getDegree()));
-        wind.setText(direction);
-        Picasso.with(this).load(parcel.getIcon()).error(R.mipmap.ic_launcher)
-                .placeholder(android.R.color.darker_gray).into(imgIcon);
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+//        tempMax.setText(parcel.getTempMax());
+//        date.setText(parcel.getDate());
+//        humidity.setText(parcel.getHumidity());
+//        pressure.setText(parcel.getPressure());
+//        wind.setText(parcel.getWind());
+//        Picasso.with(this).load(parcel.getIcon()).into(imgIcon);
+
+//        tempMax.setText(getResources().getString(R.string.format_temperature,
+//                Float.parseFloat(parcel.getTempMax())));
+//        humidity.setText(getResources().getString(R.string.format_humidity,
+//                Float.parseFloat(parcel.getHumidity())));
+//        pressure.setText(getResources().getString(R.string.format_pressure,
+//                Float.parseFloat(parcel.getPressure())));
+//        String direction = Constant.getFormattedWind(this,
+//                Float.parseFloat(parcel.getWind()), Float.parseFloat(parcel.getDegree()));
+//        wind.setText(direction);
+//        Picasso.with(this).load(parcel.getIcon()).error(R.mipmap.ic_launcher)
+//                .placeholder(android.R.color.darker_gray).into(imgIcon);
+
+        FloatingActionButton fab = findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

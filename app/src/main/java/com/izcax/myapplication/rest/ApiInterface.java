@@ -24,4 +24,5 @@ public interface ApiInterface {
                                @Query("units") String satuan,
                                @Query("appid") String api_key
     );
+
 }

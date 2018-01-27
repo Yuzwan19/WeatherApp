@@ -10,54 +10,50 @@ import android.widget.TextView;
 
 import com.izcax.myapplication.R;
 import com.izcax.myapplication.helper.Constant;
+import com.izcax.myapplication.model.db.ForecastDb;
 import com.izcax.myapplication.model.forecast.List;
 import com.squareup.picasso.Picasso;
 
-import java.util.ArrayList;
-
 /**
- * Created by Izcax on 12/4/17.
+ * Created by Izcax on 1/26/18.
  */
 
-public class ForecastAdapter extends RecyclerView.Adapter<ForecastAdapter.CategoryViewHolder> {
+public class ForecastAdapterDb extends RecyclerView.Adapter<ForecastAdapterDb.CategoryViewHolder> {
     private Context context;
-    private java.util.List<List> listForecast;
+    private java.util.List<ForecastDb> listForecast;
 
-    public java.util.List<List> getListForecast() {
+    public java.util.List<ForecastDb> getListForecast() {
         return listForecast;
     }
 
-    public void setListForecast(java.util.List<List> listForecast) {
+    public void setListForecast(java.util.List<ForecastDb> listForecast) {
         this.listForecast = listForecast;
     }
 
-    public ForecastAdapter(Context context) {
+    public ForecastAdapterDb(Context context) {
         this.context = context;
     }
 
     @Override
-    public CategoryViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public ForecastAdapterDb.CategoryViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View itemRow = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_weather, parent, false);
-        return new CategoryViewHolder(itemRow);
+        return new ForecastAdapterDb.CategoryViewHolder(itemRow);
     }
 
     @Override
-    public void onBindViewHolder(CategoryViewHolder holder, int position) {
+    public void onBindViewHolder(ForecastAdapterDb.CategoryViewHolder holder, int position) {
 //        notifyDataSetChanged();
-        String date = Constant.getDate(getListForecast().get(position).getDt());
+        String date = getListForecast().get(position).getDate();
 
         holder.tvDay.setText(date);
-        holder.tvDesc.setText(getListForecast().get(position).getWeather().get(0).getDescription());
+        holder.tvDesc.setText(getListForecast().get(position).getDesc());
         holder.tvMin.setText(context.getResources().getString(R.string.format_temperature,
-                getListForecast().get(position).getMain().getTempMin()));
+                Float.parseFloat(getListForecast().get(position).getTempMin())));
         holder.tvMax.setText(context.getResources().getString(R.string.format_temperature,
-                getListForecast().get(position).getMain().getTempMax()));
+                Float.parseFloat(getListForecast().get(position).getTempMax())));
 
-        String img_url = "http://openweathermap.org/img/w/" +
-                getListForecast().get(position).getWeather().get(0).getIcon()
-                + ".png";
         Picasso.with(context)
-                .load(img_url)
+                .load(getListForecast().get(position).getImgUrl())
                 .placeholder(android.R.color.darker_gray)
                 .error(android.R.color.background_light)
                 .into(holder.icon);
