@@ -104,7 +104,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onFailure(Call<Weather> call, Throwable t) {
                 Log.e("onFailure: ", t.getMessage());
-                Toast.makeText(MainActivity.this, t.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(MainActivity.this, R.string.no_connection, Toast.LENGTH_SHORT).show();
                 tvDay.setText(R.string.no_connection);
 
             }
@@ -142,9 +142,11 @@ public class MainActivity extends AppCompatActivity {
 
     private void getForecastDataDb(){
         List<ForecastDb> list = db.getAllForecast();
-        ForecastAdapterDb adapter = new ForecastAdapterDb(MainActivity.this);
+        ForecastAdapterDb adapter = new ForecastAdapterDb(
+                MainActivity.this);
         adapter.setListForecast(list);
-        rvForecast.setLayoutManager(new LinearLayoutManager(MainActivity.this));
+        rvForecast.setLayoutManager(new LinearLayoutManager(
+                MainActivity.this));
         rvForecast.setAdapter(adapter);
     }
 

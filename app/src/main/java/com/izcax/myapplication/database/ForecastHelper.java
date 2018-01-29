@@ -23,7 +23,7 @@ public class ForecastHelper extends SQLiteOpenHelper {
     private static final String DATABASE_NAME = "forecastManager";
 
     // Contacts table name
-    private static final String TABLE_FORECAST = "forecast";
+    private static final String TABLE_NAME = "forecast";
 
     // Contacts Table Columns names
     private static final String KEY_ID = "id";
@@ -40,7 +40,7 @@ public class ForecastHelper extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
 
-        String CREATE_CONTACTS_TABLE = "CREATE TABLE " + TABLE_FORECAST + "("
+        String CREATE_FORECAST_TABLE = "CREATE TABLE " + TABLE_NAME + "("
                 + KEY_ID + " INTEGER PRIMARY KEY,"
                 + KEY_DATE + " TEXT,"
                 + KEY_TEMP_MAX + " TEXT,"
@@ -48,14 +48,13 @@ public class ForecastHelper extends SQLiteOpenHelper {
                 + KEY_DESC + " TEXT,"
                 + KEY_IMG_URL + " TEXT"
                 + ")";
-        db.execSQL(CREATE_CONTACTS_TABLE);
+        db.execSQL(CREATE_FORECAST_TABLE);
 
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        db.execSQL("DROP TABLE IF EXISTS " + TABLE_FORECAST);
-
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_NAME);
         // Create tables again
         onCreate(db);
 
@@ -72,14 +71,14 @@ public class ForecastHelper extends SQLiteOpenHelper {
         values.put(KEY_IMG_URL, forecastDb.getImgUrl());
 
         // Inserting Row
-        db.insert(TABLE_FORECAST, null, values);
+        db.insert(TABLE_NAME, null, values);
         db.close(); // Closing database connection
     }
 
     public List<ForecastDb> getAllForecast() {
-        List<ForecastDb> contactList = new ArrayList<ForecastDb>();
+        List<ForecastDb> contactList = new ArrayList<>();
         // Select All Query
-        String selectQuery = "SELECT  * FROM " + TABLE_FORECAST;
+        String selectQuery = "SELECT  * FROM " + TABLE_NAME;
 
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor cursor = db.rawQuery(selectQuery, null);
@@ -104,8 +103,6 @@ public class ForecastHelper extends SQLiteOpenHelper {
     }
 
     public void removeAll(String tableName) {
-        // db.delete(String tableName, String whereClause, String[] whereArgs);
-        // If whereClause is null, it will delete all rows.
         SQLiteDatabase db = this.getWritableDatabase(); // helper is object extends SQLiteOpenHelper
         db.delete(tableName, null, null);
     }

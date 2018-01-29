@@ -47,10 +47,12 @@ public class ForecastAdapterDb extends RecyclerView.Adapter<ForecastAdapterDb.Ca
 
         holder.tvDay.setText(date);
         holder.tvDesc.setText(getListForecast().get(position).getDesc());
-        holder.tvMin.setText(context.getResources().getString(R.string.format_temperature,
-                Float.parseFloat(getListForecast().get(position).getTempMin())));
-        holder.tvMax.setText(context.getResources().getString(R.string.format_temperature,
-                Float.parseFloat(getListForecast().get(position).getTempMax())));
+        holder.tvMin.setText(getListForecast().get(position).getTempMin());
+        holder.tvMax.setText(getListForecast().get(position).getTempMax());
+//        holder.tvMin.setText(context.getResources().getString(R.string.format_temperature,
+//                Float.parseFloat(getListForecast().get(position).getTempMin())));
+//        holder.tvMax.setText(context.getResources().getString(R.string.format_temperature,
+//                Float.parseFloat(getListForecast().get(position).getTempMax())));
 
         Picasso.with(context)
                 .load(getListForecast().get(position).getImgUrl())

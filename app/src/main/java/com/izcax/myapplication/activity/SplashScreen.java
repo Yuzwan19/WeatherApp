@@ -41,6 +41,44 @@ public class SplashScreen extends AppCompatActivity {
 
     }
 
+    private void getForcastDATA(String ApiKey) {
+        ApiInterface apiInterface = ApiClient.getClient().create(ApiInterface.class);
+        Call<Forecast> call = apiInterface.getForecast("jakarta", "metric", ApiKey);
+        call.enqueue(new Callback<Forecast>() {
+            @Override
+            public void onResponse(Call<Forecast> call, Response<Forecast> response) {
+                try {
+                    final java.util.List<List> list = response.body().getList();
+                    for (int i = 0; i < list.size(); i++) {
+                        db.addForecast(new ForecastDb(
+                                Constant.getDate(list.get(i).getDt()),
+                                String.valueOf(list.get(i).getMain().getTempMax()),
+                                String.valueOf(list.get(i).getMain().getTempMin()),
+                                list.get(i).getWeather().get(0).getDescription(),
+                                String.format("http://openweathermap.org/img/w/%s.png",
+                                        list.get(i).getWeather().get(0).getIcon())
+                        ));
+                    }
+
+                    startActivity(new Intent(SplashScreen.this,MainActivity.class));
+                    finish();
+
+                } catch (NullPointerException e) {
+                    e.printStackTrace();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Forecast> call, Throwable t) {
+                Log.e("DB Forecast", "onFailure: ", t);
+                startActivity(new Intent(SplashScreen.this,MainActivity.class));
+                finish();
+
+            }
+        });
+    }
+
+
     private void getForecastData(String ApiKey) {
         ApiInterface apiInterface = ApiClient.getClient().create(ApiInterface.class);
         Call<Forecast> call = apiInterface.getForecast("jakarta", "metric", ApiKey);
@@ -52,7 +90,7 @@ public class SplashScreen extends AppCompatActivity {
                     final java.util.List<List> list =
                             response.body().getList();
 
-                    for (int i = 0; i<list.size(); i++){
+                    for (int i = 0; i < list.size(); i++) {
                         db.addForecast(new ForecastDb(
                                 Constant.getDate(list.get(i).getDt()),
                                 String.valueOf(list.get(i).getMain().getTempMax()),
